@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>District:</strong>
+  <%= @hour.district_id %>
+</p>
+
+<p>
+  <strong>No2:</strong>
+  <%= @hour.no2 %>
+</p>
+
+<p>
+  <strong>O3:</strong>
+  <%= @hour.o3 %>
+</p>
+
+<p>
+  <strong>So2:</strong>
+  <%= @hour.so2 %>
+</p>
+
+<p>
+  <strong>Co:</strong>
+  <%= @hour.co %>
+</p>
+
+<p>
+  <strong>Pm10:</strong>
+  <%= @hour.pm10 %>
+</p>
+
+<p>
+  <strong>Pm25:</strong>
+  <%= @hour.pm25 %>
+</p>
+
+<%= link_to 'Edit', edit_hour_path(@hour) %> |
+<%= link_to 'Back', hours_path %>

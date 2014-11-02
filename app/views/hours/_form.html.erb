@@ -1,0 +1,45 @@
+<%= form_for(@hour) do |f| %>
+  <% if @hour.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@hour.errors.count, "error") %> prohibited this hour from being saved:</h2>
+
+      <ul>
+      <% @hour.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :district_id %><br>
+    <%= f.number_field :district_id %>
+  </div>
+  <div class="field">
+    <%= f.label :no2 %><br>
+    <%= f.text_field :no2 %>
+  </div>
+  <div class="field">
+    <%= f.label :o3 %><br>
+    <%= f.text_field :o3 %>
+  </div>
+  <div class="field">
+    <%= f.label :so2 %><br>
+    <%= f.text_field :so2 %>
+  </div>
+  <div class="field">
+    <%= f.label :co %><br>
+    <%= f.text_field :co %>
+  </div>
+  <div class="field">
+    <%= f.label :pm10 %><br>
+    <%= f.text_field :pm10 %>
+  </div>
+  <div class="field">
+    <%= f.label :pm25 %><br>
+    <%= f.text_field :pm25 %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
