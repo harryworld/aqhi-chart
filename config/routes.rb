@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   resources :districts, :only => [:index]
 
-  resources :hours
+  resources :hours do
+    get 'latest', on: :collection
+  end
 
   get 'data' => 'welcome#data'
 

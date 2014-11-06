@@ -7,6 +7,11 @@ class HoursController < ApplicationController
     @hours = Hour.all
   end
 
+  def latest
+    @hours = Hour.order(id: :desc).first(24)
+    render :index
+  end
+
   # GET /hours/1
   # GET /hours/1.json
   def show

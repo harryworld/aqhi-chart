@@ -3,17 +3,20 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $("#container").highcharts
-    chart:
-      zoomType: "xy"
-
-    title:
-      text: "Air Quality for Hong Kong"
-
-    subtitle:
-      text: "Source: EPD (Last 24 Hours)"
-
-    xAxis: [categories: [
+  pm25Array = []
+  pm10Array = []
+  no2Array = []
+  so2Array = []
+  xCat = [
+      "00:00"
+      "01:00"
+      "02:00"
+      "03:00"
+      "04:00"
+      "05:00"
+      "06:00"
+      "07:00"
+      "08:00"
       "09:00"
       "10:00"
       "11:00"
@@ -26,16 +29,57 @@ $ ->
       "18:00"
       "19:00"
       "20:00"
-    ]]
+      "21:00"
+      "22:00"
+      "23:00"
+    ]
+
+  $.getJSON "/hours/latest.json", (data) ->
+    $.each data, (k, v) ->
+      pm25Array.push v.pm25
+      pm10Array.push v.pm10
+      no2Array.push v.no2
+      so2Array.push v.so2
+
+    load pm25Array, pm10Array, no2Array, so2Array, xCat
+
+
+load = (pm25, pm10, no2, so2, xCat) ->
+  $("#container").highcharts
+    chart:
+      zoomType: "xy"
+
+    title:
+      text: "Air Quality for Hong Kong"
+
+    subtitle:
+      text: "Source: EPD (Last 24 Hours)"
+
+    xAxis: [categories: xCat]
     yAxis: [ # Primary yAxis
       {
+        # Tertiary yAxis
+        gridLineWidth: 0
+        title:
+          text: "PM2.5"
+          style:
+            color: Highcharts.getOptions().colors[1]
+
         labels:
-          format: "{value}°C"
+          format: "{value}"
+          style:
+            color: Highcharts.getOptions().colors[1]
+
+        opposite: true
+      }
+      {
+        labels:
+          format: "{value}"
           style:
             color: Highcharts.getOptions().colors[2]
 
         title:
-          text: "Temperature"
+          text: "PM10"
           style:
             color: Highcharts.getOptions().colors[2]
 
@@ -45,29 +89,27 @@ $ ->
         # Secondary yAxis
         gridLineWidth: 0
         title:
-          text: "All Pollutants"
+          text: "NO2"
           style:
             color: Highcharts.getOptions().colors[0]
 
         labels:
-          format: "{value} mm"
+          format: "{value}"
           style:
             color: Highcharts.getOptions().colors[0]
       }
       {
-        # Tertiary yAxis
+        # 4th yAxis
         gridLineWidth: 0
         title:
-          text: "Sea-Level Pressure"
+          text: "SO2"
           style:
-            color: Highcharts.getOptions().colors[1]
+            color: Highcharts.getOptions().colors[3]
 
         labels:
-          format: "{value} mb"
+          format: "{value}"
           style:
-            color: Highcharts.getOptions().colors[1]
-
-        opposite: true
+            color: Highcharts.getOptions().colors[3]
       }
     ]
     tooltip:
@@ -84,70 +126,44 @@ $ ->
 
     series: [
       {
-        name: "All Pollutants"
-        type: "column"
-        yAxis: 1
-        data: [
-          49.9
-          71.5
-          106.4
-          129.2
-          144.0
-          176.0
-          135.6
-          148.5
-          216.4
-          194.1
-          95.6
-          54.4
-        ]
-        tooltip:
-          valueSuffix: " mm"
-      }
-      {
-        name: "Sea-Level Pressure"
+        name: "PM2.5"
         type: "spline"
-        yAxis: 2
-        data: [
-          1016
-          1016
-          1015.9
-          1015.5
-          1012.3
-          1009.5
-          1009.6
-          1010.2
-          1013.1
-          1016.9
-          1018.2
-          1016.7
-        ]
+        data: pm25
         marker:
           enabled: false
 
         dashStyle: "shortdot"
         tooltip:
-          valueSuffix: " mb"
+          valueSuffix: ""
       }
       {
-        name: "Temperature"
+        name: "PM10"
         type: "spline"
-        data: [
-          7.0
-          6.9
-          9.5
-          14.5
-          18.2
-          21.5
-          25.2
-          26.5
-          23.3
-          18.3
-          13.9
-          9.6
-        ]
+        yAxis: 1
+        data: pm10
         tooltip:
-          valueSuffix: " °C"
+          valueSuffix: ""
+
+        dashStyle: "shortdot"
+      }
+      {
+        name: "NO2"
+        type: "spline"
+        yAxis: 2
+        data: no2
+        tooltip:
+          valueSuffix: ""
+      }
+      {
+        name: "SO2"
+        type: "spline"
+        yAxis: 3
+        data: so2
+        marker:
+          enabled: false
+
+        tooltip:
+          valueSuffix: ""
       }
     ]
 
