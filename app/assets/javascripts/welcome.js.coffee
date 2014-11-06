@@ -7,32 +7,7 @@ $ ->
   pm10Array = []
   no2Array = []
   so2Array = []
-  xCat = [
-      "00:00"
-      "01:00"
-      "02:00"
-      "03:00"
-      "04:00"
-      "05:00"
-      "06:00"
-      "07:00"
-      "08:00"
-      "09:00"
-      "10:00"
-      "11:00"
-      "12:00"
-      "13:00"
-      "14:00"
-      "15:00"
-      "16:00"
-      "17:00"
-      "18:00"
-      "19:00"
-      "20:00"
-      "21:00"
-      "22:00"
-      "23:00"
-    ]
+  xCat = []
 
   $.getJSON "/hours/latest.json", (data) ->
     $.each data, (k, v) ->
@@ -40,6 +15,7 @@ $ ->
       pm10Array.push v.pm10
       no2Array.push v.no2
       so2Array.push v.so2
+      xCat.push v.timeTitle
 
     load pm25Array, pm10Array, no2Array, so2Array, xCat
 

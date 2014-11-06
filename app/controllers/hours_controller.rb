@@ -8,7 +8,7 @@ class HoursController < ApplicationController
   end
 
   def latest
-    @hours = Hour.order(id: :desc).first(24)
+    @hours = Hour.all.order(id: :desc)
     render :index
   end
 

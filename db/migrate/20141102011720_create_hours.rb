@@ -2,6 +2,7 @@ class CreateHours < ActiveRecord::Migration
   def change
     create_table :hours do |t|
       t.integer :district_id
+      t.string :title
       t.float :no2
       t.float :o3
       t.float :so2

@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20141102011813) do
 
   create_table "hours", force: true do |t|
     t.integer  "district_id"
+    t.string   "title"
     t.float    "no2"
     t.float    "o3"
     t.float    "so2"
